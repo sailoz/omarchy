@@ -27,6 +27,19 @@ show_subtext() {
   echo
 }
 
+# Create a single log file for the entire process.
+LOG_FILE="$HOME/omarchy_install_log_$(date +%s).txt"
+exec &> >(tee -a "$LOG_FILE")
+
+echo "--- Omarchy Installation Process Started ---"
+echo "The full log will be saved to: $LOG_FILE"
+echo "-------------------------------------------"
+
+# Pre-installation Logging
+echo -e "\nRunning pre-installation logging script..."
+source "$OMARCHY_INSTALL/log/pre-install.sh"
+echo "Pre-installation logging complete."
+
 # Install prerequisites
 source $OMARCHY_INSTALL/preflight/gum.sh
 source $OMARCHY_INSTALL/preflight/guard.sh
@@ -86,8 +99,15 @@ if ping -c1 omarchy.org &>/dev/null; then
   yay -Syu --noconfirm --ignore uwsm
 fi
 
-# Reboot
+# pre-reboot
 show_logo laseretch 920
 show_subtext "You're done! So we'll be rebooting now..."
+
+# Post-installation Logging
+echo -e "\nRunning post-installation logging script..."
+source "$OMARCHY_INSTALL/log/post-install.sh"
+echo "Post-installation logging complete."
+
+# Reboot
 sleep 2
 reboot
