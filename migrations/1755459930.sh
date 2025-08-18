@@ -1,5 +1,5 @@
-echo "Installing python-gobject"
+echo "Add potentially missing dependency for power profile controls"
 
-if ! pacman -Q python-gobject &>/dev/null; then
-  yay -S --noconfirm --needed python-gobject
+if ! yay -Q python-gobject &>/dev/null; then
+  yay -S --noconfirm python-gobject
 fi
