@@ -1,5 +1,9 @@
-echo "Installing python-poetry-core"
+echo "Ensure TTE and dependencies are installed"
 
-if ! pacman -Q python-poetry-core &>/dev/null; then
-  yay -S --noconfirm --needed python-poetry-core
+if ! yay -Q python-poetry-core &>/dev/null; then
+  yay -S --noconfirm python-poetry-core
+fi
+
+if ! yay -Q python-terminaltexteffects &>/dev/null; then
+  yay -S --noconfirm python-terminaltexteffects
 fi
