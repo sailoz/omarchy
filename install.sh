@@ -94,9 +94,9 @@ fi
 # Stop logging
 source $OMARCHY_INSTALL/log/after-install.sh
 
-# Installation is finished
+# Reboot
 show_logo laseretch 920
-show_subtext "You're done! So we'll be rebooting now..."
+show_subtext "You're done! So we're ready to reboot now..."
 
 if sudo test -f /etc/sudoers.d/99-omarchy-installer; then
   sudo rm -f /etc/sudoers.d/99-omarchy-installer &>/dev/null
