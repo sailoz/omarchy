@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 
 # Start logging a copy of everything sent to STDOUT and STDERR
-LOG_DIR=~/.local/state/omarchy/logs/
-mkdir -p $LOG_DIR
-exec &> >(tee -a "$LOG_DIR/installation.log")
+mkdir -p ~/.local/state/omarchy/logs/
+exec &> >(tee -a ~/.local/state/omarchy/logs/installation.log)
 
 echo "--- System state before installation ---"
 sudo pacman -S --noconfirm fastfetch
