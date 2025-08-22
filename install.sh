@@ -17,6 +17,7 @@ catch_errors() {
     echo "You can retry by running: bash ~/.local/share/omarchy/install.sh"
   fi
 
+  echo "See your installation log in ~/.local/state/omarchy/installation.log"
   echo "Get help from the community: https://discord.gg/tXFUdasqhY"
 }
 
@@ -33,18 +34,8 @@ show_subtext() {
   echo
 }
 
-# Create a single log file for the entire process.
-LOG_FILE="$HOME/omarchy_install_log_$(date +%s).txt"
-exec &> >(tee -a "$LOG_FILE")
-
-echo "--- Omarchy Installation Process Started ---"
-echo "The full log will be saved to: $LOG_FILE"
-echo "-------------------------------------------"
-
-# Pre-installation Logging
-echo -e "\nRunning pre-installation logging script..."
-source "$OMARCHY_INSTALL/log/pre-install.sh"
-echo "Pre-installation logging complete."
+# Start logging
+source $OMARCHY_INSTALL/log/before-install.sh
 
 # Install prerequisites
 source $OMARCHY_INSTALL/preflight/chroot.sh
@@ -100,14 +91,12 @@ if ping -c5 omarchy.org &>/dev/null; then
   yay -Syu --noconfirm
 fi
 
-# pre-reboot
+# Stop logging
+source $OMARCHY_INSTALL/log/after-install.sh
+
+# Installation is finished
 show_logo laseretch 920
 show_subtext "You're done! So we'll be rebooting now..."
-
-# Post-installation Logging
-echo -e "\nRunning post-installation logging script..."
-source "$OMARCHY_INSTALL/log/post-install.sh"
-echo "Post-installation logging complete."
 
 if sudo test -f /etc/sudoers.d/99-omarchy-installer; then
   sudo rm -f /etc/sudoers.d/99-omarchy-installer &>/dev/null
