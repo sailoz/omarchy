@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set -e
 
 # Start logging a copy of everything sent to STDOUT and STDERR
 LOG_DIR=~/.local/state/omarchy/logs/
